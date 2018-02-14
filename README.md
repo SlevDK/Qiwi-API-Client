@@ -18,3 +18,5 @@
     - [ ] **send money to qiwi**
     - [ ] **send money to**
     - [ ] **send money to bank credentials**
+    
+- [ ] **Add documentation**
