@@ -7,7 +7,7 @@
   - [x] **Profile**
   - [ ] **Update wallet identification**
   - [ ] **Payments history:**
-    - [ ] **payments list**
+    - [x] **payments list**
     - [ ] **payments total**
     - [ ] **transaction info**
     - [ ] **payment cheque**
