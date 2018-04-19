@@ -13,10 +13,6 @@ abstract class RequestEntity
 {
     /** @var array Common API error status codes */
     private $status_code_exceptions = [
-        400 => [
-            "ex" => "ArgumentException",
-            "descr" => "Wrong query data!"
-        ],
         401 => [
             "ex" => "UnauthorizedException",
             "descr" => "Wrong token or token live expired!"
@@ -79,6 +75,7 @@ abstract class RequestEntity
     {
         try {
             $response = $client->request($method, $uri, $params);
+            return json_decode($response->getBody(), true);
         } catch(RequestException $e) {
             $this->handleException($e);
         }
@@ -150,7 +147,7 @@ abstract class RequestEntity
         ];
     }
 
-    abstract protected function prepareParams($params, $token);
+    abstract protected function prepareParams($options, $token);
 
     abstract protected function prepareUri($baseURI, $wallet);
 }
