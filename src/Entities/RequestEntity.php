@@ -13,6 +13,10 @@ abstract class RequestEntity
 {
     /** @var array Common API error status codes */
     private $status_code_exceptions = [
+        400 => [
+            "ex" => "ArgumentException",
+            "descr" => "Wrong query data format!"
+        ],
         401 => [
             "ex" => "UnauthorizedException",
             "descr" => "Wrong token or token live expired!"
@@ -20,6 +24,10 @@ abstract class RequestEntity
         403 => [
             "ex" => "TokenLowRightsException",
             "descr" => "Token has too low rights for this request!"
+        ],
+        422 => [
+            "ex" => "ArgumentException",
+            "descr" => "Wrong GET/POST data format!",
         ],
         504 => [
             "ex" => "GatewayTimeOutException",
