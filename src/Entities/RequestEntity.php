@@ -58,6 +58,7 @@ abstract class RequestEntity
      * @param ClientInterface $http_client Http client
      *
      * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function exec($args, $wallet, $token, $baseURI, ClientInterface $http_client)
     {
@@ -77,7 +78,7 @@ abstract class RequestEntity
      * @param ClientInterface $client Http client (instance of ClientInterface)
      *
      * @return array Server response
-     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function sendRequest($method, $uri, $params, ClientInterface $client)
     {
@@ -140,8 +141,7 @@ abstract class RequestEntity
 
     /**
      * Return headers array
-     * 
-     * @param array $params Request params
+     *
      * @param string $token Qiwi wallet token
      * 
      * @return array
@@ -155,7 +155,23 @@ abstract class RequestEntity
         ];
     }
 
+    /**
+     * Prepare params for request
+     *
+     * @param array $options Request params
+     * @param string $token Qiwi wallet token
+     *
+     * @return array
+     */
     abstract protected function prepareParams($options, $token);
 
+    /**
+     * Prepare uri
+     *
+     * @param string $baseURI ase uri
+     * @param string $wallet qiwi wallet number
+     *
+     * @return string
+     */
     abstract protected function prepareUri($baseURI, $wallet);
 }
