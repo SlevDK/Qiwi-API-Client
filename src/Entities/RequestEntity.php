@@ -15,23 +15,23 @@ abstract class RequestEntity
     private $status_code_exceptions = [
         400 => [
             "ex" => "ArgumentException",
-            "descr" => "Wrong query data format!"
+            "descr" => "Wrong query data format"
         ],
         401 => [
             "ex" => "UnauthorizedException",
-            "descr" => "Wrong token or token live expired!"
+            "descr" => "Wrong token or token live expired"
         ],
         403 => [
             "ex" => "TokenLowRightsException",
-            "descr" => "Token has too low rights for this request!"
+            "descr" => "Token has too low rights for this request"
         ],
         422 => [
             "ex" => "ArgumentException",
-            "descr" => "Wrong GET/POST data format!",
+            "descr" => "Wrong GET/POST data format",
         ],
         504 => [
             "ex" => "GatewayTimeOutException",
-            "descr" => "Gateway time-out, try later!"
+            "descr" => "Gateway time-out, try later"
         ]
     ];
 
@@ -84,6 +84,7 @@ abstract class RequestEntity
     {
         try {
             $response = $client->request($method, $uri, $params);
+
             return json_decode($response->getBody(), true);
         } catch(RequestException $e) {
             $this->handleException($e);

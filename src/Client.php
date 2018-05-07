@@ -12,6 +12,7 @@ use QiwiApi\Entities\RequestEntity;
  * @see https://developer.qiwi.com/ru/qiwi-wallet-personal/ for correct request parameters
  * @method RequestEntity getProfile(array $params = [])
  * @method RequestEntity getPaymentsList(array $params)
+ * @method RequestEntity getPaymentsTotal(array $params)
  */
 class Client
 {
@@ -43,7 +44,8 @@ class Client
 
     private $methodMap = [
         "getProfile" => "Profile",
-        "getPaymentsList" => "PaymentsList"
+        "getPaymentsList" => "PaymentsList",
+        "getPaymentsTotal" => "PaymentsTotal"
     ];
 
 
