@@ -10,7 +10,7 @@ use QiwiApi\Entities\RequestEntity;
  * @package QiwiApi
  *
  * @see https://developer.qiwi.com/ru/qiwi-wallet-personal/ for correct request parameters
- * @method RequestEntity getProfile(array $params)
+ * @method RequestEntity getProfile(array $params = [])
  * @method RequestEntity getPaymentsList(array $params)
  */
 class Client
@@ -54,7 +54,7 @@ class Client
      * @param string $token wallet token
      * @param ClientInterface $client   http client (\GuzzleHttp\Client by default)
      */
-    public function __construct($wallet, string $token, ClientInterface $client = null)
+    public function __construct($wallet, $token, ClientInterface $client = null)
     {
         $this->wallet   = $this->escapePlus($wallet);
         $this->token    = $token;
@@ -82,7 +82,7 @@ class Client
             $obj_name = $namespace_prefix.$this->methodMap[$name];
             $object = new $obj_name();
             
-            return $object->exec($args[0], $this->wallet, $this->token, $this->baseURI, $this->http_client);
+            return $object->exec(@$args[0], $this->wallet, $this->token, $this->baseURI, $this->http_client);
         }
 
         throw new \BadMethodCallException("Qiwi API Client: Call to undefined method {$name}()");
