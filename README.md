@@ -8,7 +8,7 @@
   - [ ] **Update wallet identification**
   - [ ] **Payments history:**
     - [x] **payments list**
-    - [ ] **payments total**
+    - [x] **payments total**
     - [ ] **transaction info**
     - [ ] **payment cheque**
   - [ ] **Balance**

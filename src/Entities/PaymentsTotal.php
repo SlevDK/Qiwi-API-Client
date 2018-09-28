@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: slevin
- * Date: 08.05.18
- * Time: 0:23
- */
 
 namespace QiwiApi\Entities;
 
@@ -27,47 +21,10 @@ class PaymentsTotal extends RequestEntity
      */
     protected function prepareParams($options, $token)
     {
-        $params["query"] = $this->checkRequiredParams($options);
+        $params["query"] = $options;
         $params["headers"] = $this->prepareHeaders($token);
 
         return $params;
-    }
-
-    /**
-     * Check required params
-     *
-     * @param array $options
-     *
-     * @return array
-     * @throws ArgumentException
-     */
-    private function checkRequiredParams($options)
-    {
-        if(!isset($options["startDate"]))
-            throw new ArgumentException("Required param 'startDate' missing");
-
-        if(!isset($options["endDate"]))
-            throw new ArgumentException("Required param 'endDate' missing");
-
-        // Check date format by converting into DateTime, add TimeZone
-        try {
-            $startDate = new \DateTime(
-                $options["startDate"],
-                new \DateTimeZone((isset($option["TimeZone"])) ? $options["TimeZone"] : "Europe/Moscow"));
-
-            $endDate = new \DateTime(
-                $options["endDate"],
-                new \DateTimeZone((isset($option["TimeZone"])) ? $options["TimeZone"] : "Europe/Moscow"));
-        } catch(\Exception $e) {
-            throw new ArgumentException("Wrong date format");
-        }
-
-
-        $options["startDate"] = $startDate->format(DATE_ATOM);
-        $options["endDate"] = $endDate->format(DATE_ATOM);
-        var_dump($options);
-
-        return $options;
     }
 
     /**

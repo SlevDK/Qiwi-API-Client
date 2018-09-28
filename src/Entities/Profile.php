@@ -2,10 +2,6 @@
 
 namespace QiwiApi\Entities;
 
-/**
- * Class Profile
- * @package QiwiApi\Entities
- */
 class Profile extends RequestEntity
 {
     /** @var string Request uri */
