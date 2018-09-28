@@ -4,6 +4,9 @@ namespace QiwiApi\Entities;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
+use QiwiApi\Exceptions\EmptyResponseException;
+use QiwiApi\Exceptions\QiwiResponseException;
+use QiwiApi\Exceptions\QiwiTransferException;
 
 /**
  * Class RequestEntity
@@ -32,13 +35,6 @@ abstract class RequestEntity
         504 => [
             "ex" => "GatewayTimeOutException",
             "descr" => "Gateway time-out, try later"
-        ]
-    ];
-
-    private $curl_errno_exception = [
-        52 => [
-            "ex" => "EmptyResponseException",
-            "descr" => "Server return empty response!"
         ]
     ];
 
@@ -94,7 +90,7 @@ abstract class RequestEntity
     }
 
     /**
-     * Determine error by curl or http error status code and throw correct exception
+     * Determine transfer or response exception type and throw correct one
      * 
      * @param RequestException $e Request exception
      * 
@@ -102,42 +98,14 @@ abstract class RequestEntity
      */
     private function handleException(RequestException $e)
     {
-        $namespace_prefix = "QiwiApi\\Exceptions\\";
-
         $handler_context = $e->getHandlerContext();
 
         // for curl exception
-        if(
-            !empty($handler_context) &&
-            array_key_exists($handler_context["errno"], $this->curl_errno_exception)
-        ) {
-            $ex = $namespace_prefix.$this->curl_errno_exception[$handler_context["errno"]]["ex"];
-            $descr = $this->curl_errno_exception[$handler_context["errno"]]["descr"];
-
-            throw new $ex($descr);
+        if(!empty($handler_context)) {
+            throw new QiwiTransferException("Something going wrong (cUrl error number {$handler_context["errno"]})");
         }
 
-        $status_code = $e->getResponse()->getStatusCode();
-        $descr = "Qiwi API returned {$status_code} status code: ";
-
-        // get bad status code
-        if(array_key_exists($status_code, $this->status_code_exceptions)) {
-
-            $ex = $namespace_prefix.$this->status_code_exceptions[$status_code]["ex"];
-            $descr .= $this->status_code_exceptions[$status_code]["descr"];
-
-            Throw new $ex($descr);
-
-        } else if(array_key_exists($status_code, $this->personal_status_code_exceptions)) {
-
-            $ex = $namespace_prefix.$this->personal_status_code_exceptions[$status_code]["ex"];
-            $descr .= $this->personal_status_code_exceptions[$status_code]["descr"];
-
-            Throw new $ex($descr);
-
-        } else {
-            Throw new \Exception($e->getMessage());
-        }
+        throw new QiwiResponseException($e->getMessage());
     }
 
     /**
