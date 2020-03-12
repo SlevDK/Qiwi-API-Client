@@ -1,6 +1,6 @@
 <?php
 
-namespace QiwiApi\Entities;
+namespace SlevDK\QiwiApi\Entities;
 
 class Profile extends RequestEntity
 {

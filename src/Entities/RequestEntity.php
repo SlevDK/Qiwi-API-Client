@@ -1,12 +1,11 @@
 <?php
 
-namespace QiwiApi\Entities;
+namespace SlevDK\QiwiApi\Entities;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
-use QiwiApi\Exceptions\EmptyResponseException;
-use QiwiApi\Exceptions\QiwiResponseException;
-use QiwiApi\Exceptions\QiwiTransferException;
+use SlevDK\QiwiApi\Exceptions\QiwiResponseException;
+use SlevDK\QiwiApi\Exceptions\QiwiTransferException;
 
 /**
  * Class RequestEntity

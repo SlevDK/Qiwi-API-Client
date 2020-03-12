@@ -1,9 +1,9 @@
 <?php
 
-namespace QiwiApi;
+namespace SlevDK\QiwiApi;
 
 use GuzzleHttp\ClientInterface;
-use QiwiApi\Entities\RequestEntity;
+use SlevDK\QiwiApi\Entities\RequestEntity;
 
 /**
  * Class Client
@@ -61,11 +61,11 @@ class Client
         $this->wallet   = $this->escapePlus($wallet);
         $this->token    = $token;
 
-        if($client) {
-            $this->http_client = $client;
-        } else {
-            $this->http_client = new \GuzzleHttp\Client();
+        if(!$client) {
+            $client = new \GuzzleHttp\Client();
         }
+
+        $this->http_client = $client;
     }
 
     /**
@@ -79,7 +79,7 @@ class Client
      */
     public function __call($name, $args)
     {
-        $namespace_prefix = "QiwiApi\\Entities\\";
+        $namespace_prefix = "SlevDK\\QiwiApi\\Entities\\";
         if(array_key_exists($name, $this->methodMap)) {
             $obj_name = $namespace_prefix.$this->methodMap[$name];
             $object = new $obj_name();

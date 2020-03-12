@@ -1,9 +1,6 @@
 <?php
 
-namespace QiwiApi\Entities;
-
-
-use QiwiApi\Exceptions\ArgumentException;
+namespace SlevDK\QiwiApi\Entities;
 
 class PaymentsTotal extends RequestEntity
 {
@@ -17,7 +14,6 @@ class PaymentsTotal extends RequestEntity
      * @param string $token Qiwi wallet token
      *
      * @return array
-     * @throws ArgumentException
      */
     protected function prepareParams($options, $token)
     {

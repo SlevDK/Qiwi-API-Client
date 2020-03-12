@@ -1,6 +1,6 @@
 <?php
 
-namespace QiwiApi\Exceptions;
+namespace SlevDK\QiwiApi\Exceptions;
 
 
 class QiwiTransferException extends \Exception
