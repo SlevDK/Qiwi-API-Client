@@ -2,6 +2,7 @@
 
 namespace SlevDK\QiwiApi;
 
+use BadMethodCallException;
 use GuzzleHttp\ClientInterface;
 use SlevDK\QiwiApi\Entities\RequestEntity;
 
@@ -43,9 +44,10 @@ class Client
     private $baseURI = "https://edge.qiwi.com/";
 
     private $methodMap = [
-        "getProfile" => "Profile",
-        "getPaymentsList" => "PaymentsList",
-        "getPaymentsTotal" => "PaymentsTotal"
+        "getProfile"            => "Profile",
+        "getPaymentsList"       => "PaymentsList",
+        "getPaymentsTotal"      => "PaymentsTotal",
+        "getTransactionInfo"    => "TransactionInfo",
     ];
 
 
@@ -62,7 +64,7 @@ class Client
         $this->token    = $token;
 
         if(!$client) {
-            $client = new \GuzzleHttp\Client();
+            $client = new \GuzzleHttp\Client(['http_errors' => false]);
         }
 
         $this->http_client = $client;
@@ -73,7 +75,7 @@ class Client
      *
      * @param string $name
      * @param array $args
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      *
      * @return mixed
      */
@@ -87,7 +89,7 @@ class Client
             return $object->exec(@$args[0], $this->wallet, $this->token, $this->baseURI, $this->http_client);
         }
 
-        throw new \BadMethodCallException("Qiwi API Client: Call to undefined method {$name}()");
+        throw new BadMethodCallException("Qiwi API Client: Call to undefined method {$name}()");
     }
 
     /**

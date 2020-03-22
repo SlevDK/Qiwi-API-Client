@@ -3,7 +3,7 @@
 namespace SlevDK\QiwiApi\Exceptions;
 
 
-class QiwiResponseException extends \Exception
+class ResponseException extends QiwiException
 {
 
 }

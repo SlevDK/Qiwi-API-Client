@@ -4,8 +4,12 @@ namespace SlevDK\QiwiApi\Entities;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
-use SlevDK\QiwiApi\Exceptions\QiwiResponseException;
-use SlevDK\QiwiApi\Exceptions\QiwiTransferException;
+use Psr\Http\Message\ResponseInterface;
+use SlevDK\QiwiApi\Exceptions\BadRequestException;
+use SlevDK\QiwiApi\Exceptions\NotFoundException;
+use SlevDK\QiwiApi\Exceptions\QiwiException;
+use SlevDK\QiwiApi\Exceptions\ResponseException;
+use SlevDK\QiwiApi\Exceptions\TransferException;
 
 /**
  * Class RequestEntity
@@ -26,7 +30,7 @@ abstract class RequestEntity
      * @param ClientInterface $http_client Http client
      *
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws QiwiException
      */
     public function exec($args, $wallet, $token, $baseURI, ClientInterface $http_client)
     {
@@ -39,26 +43,31 @@ abstract class RequestEntity
     /**
      * Send request, return response or determine error and throw correct exception
      *
-     *
      * @param string $method Request method
      * @param string $uri Request URI
      * @param array $params Request params
      * @param ClientInterface $client Http client (instance of ClientInterface)
      *
      * @return array Server response
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws QiwiException
      */
     protected function sendRequest($method, $uri, $params, ClientInterface $client)
     {
         try {
             $response = $client->request($method, $uri, $params);
-
-            return json_decode($response->getBody(), true);
         } catch(RequestException $e) {
+            // handle transfer or response exception
+            // response exception will be thrown if http client doesn't process 400+ status code
+            // as ordinary response ('http_errors' => true)
             $this->handleException($e);
         }
 
-        return json_decode($response->getBody(), true);
+        // handle 400+ status codes
+        if ($response->getStatusCode() >= 400) {
+            $this->handleHttpError($response);
+        }
+
+        return json_decode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -66,7 +75,7 @@ abstract class RequestEntity
      * 
      * @param RequestException $e Request exception
      * 
-     * @throws \Exception
+     * @throws QiwiException
      */
     private function handleException(RequestException $e)
     {
@@ -74,10 +83,34 @@ abstract class RequestEntity
 
         // for curl exception
         if(!empty($handler_context)) {
-            throw new QiwiTransferException("Something going wrong (cUrl error number {$handler_context["errno"]})");
+            throw new TransferException(
+                "Something going wrong (cUrl error number {$handler_context["errno"]})",
+                $e->getCode(),
+                $e->getPrevious()
+            );
         }
 
-        throw new QiwiResponseException($e->getMessage());
+        throw new ResponseException($e->getMessage(), $e->getCode(), $e->getPrevious());
+    }
+
+    /**
+     * Handle 400 and 404 response status codes
+     * Qiwi API return 400 code for validation error
+     * and 404 if resource not found
+     *
+     * @param ResponseInterface $response Qiwi response
+     * @throws QiwiException
+     */
+    private function handleHttpError(ResponseInterface $response)
+    {
+        $code = $response->getStatusCode();
+        $content = $response->getBody()->getContents();
+
+        if ($code == 400) {
+            throw new BadRequestException($content, $code);
+        } else if ($code == 404) {
+            throw new NotFoundException($content, $code);
+        }
     }
 
     /**
