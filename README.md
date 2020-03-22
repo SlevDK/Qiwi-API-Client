@@ -9,7 +9,7 @@
   - [ ] **Payments history:**
     - [x] **payments list**
     - [x] **payments total**
-    - [ ] **transaction info**
+    - [x] **transaction info**
     - [ ] **payment cheque**
   - [ ] **Balance**
   - [ ] **Payments:**
