@@ -14,6 +14,7 @@ use SlevDK\QiwiApi\Entities\RequestEntity;
  * @method RequestEntity getProfile(array $params = [])
  * @method RequestEntity getPaymentsList(array $params)
  * @method RequestEntity getPaymentsTotal(array $params)
+ * @method RequestEntity getTransactionInfo(array $params)
  */
 class Client
 {
