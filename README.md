@@ -10,7 +10,7 @@
     - [x] **payments list**
     - [x] **payments total**
     - [x] **transaction info**
-    - [ ] **payment cheque**
+    - [x] **payment cheque**
   - [ ] **Balance**
   - [ ] **Payments:**
     - [ ] **commissions info**

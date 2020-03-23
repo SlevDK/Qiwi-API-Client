@@ -48,7 +48,7 @@ abstract class RequestEntity
      * @param array $params Request params
      * @param ClientInterface $client Http client (instance of ClientInterface)
      *
-     * @return array Server response
+     * @return mixed Server response
      * @throws QiwiException
      */
     protected function sendRequest($method, $uri, $params, ClientInterface $client)
@@ -67,6 +67,20 @@ abstract class RequestEntity
             $this->handleHttpError($response);
         }
 
+        return $this->parseResponse($response);
+    }
+
+    /**
+     * Parse and return response content
+     * Depends on content type
+     *
+     * By default - return decoded json string
+     *
+     * @param ResponseInterface $response
+     * @return mixed
+     */
+    protected function parseResponse(ResponseInterface $response)
+    {
         return json_decode($response->getBody()->getContents(), true);
     }
 

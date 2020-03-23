@@ -15,6 +15,7 @@ use SlevDK\QiwiApi\Entities\RequestEntity;
  * @method RequestEntity getPaymentsList(array $params)
  * @method RequestEntity getPaymentsTotal(array $params)
  * @method RequestEntity getTransactionInfo(array $params)
+ * @method RequestEntity getTransactionCheque(array $params)
  */
 class Client
 {
@@ -49,6 +50,7 @@ class Client
         "getPaymentsList"       => "PaymentsList",
         "getPaymentsTotal"      => "PaymentsTotal",
         "getTransactionInfo"    => "TransactionInfo",
+        "getTransactionCheque"  => "TransactionCheque"
     ];
 
 
@@ -64,7 +66,7 @@ class Client
         $this->wallet   = $this->escapePlus($wallet);
         $this->token    = $token;
 
-        if(!$client) {
+        if (!$client) {
             $client = new \GuzzleHttp\Client(['http_errors' => false]);
         }
 
@@ -83,7 +85,7 @@ class Client
     public function __call($name, $args)
     {
         $namespace_prefix = "SlevDK\\QiwiApi\\Entities\\";
-        if(array_key_exists($name, $this->methodMap)) {
+        if (array_key_exists($name, $this->methodMap)) {
             $obj_name = $namespace_prefix.$this->methodMap[$name];
             $object = new $obj_name();
             
