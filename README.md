@@ -6,7 +6,7 @@
 - [ ] **Request entities:**
   - [x] **Profile**
   - [ ] **Update wallet identification**
-  - [ ] **Payments history:**
+  - [x] **Payments history:**
     - [x] **payments list**
     - [x] **payments total**
     - [x] **transaction info**
