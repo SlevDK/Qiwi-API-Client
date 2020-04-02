@@ -16,17 +16,6 @@ class TransactionInfo extends RequestEntity
     /**
      * @inheritDoc
      */
-    protected function prepareParams($options, $token)
-    {
-        $params["query"] = $options;
-        $params["headers"] = $this->prepareHeaders($token);
-
-        return $params;
-    }
-
-    /**
-     * @inheritDoc
-     */
     protected function prepareUri($baseURI, $transaction_id)
     {
         return str_replace('{transaction_id}',$transaction_id, $baseURI.$this->uri);

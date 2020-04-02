@@ -8,22 +8,6 @@ class PaymentsTotal extends RequestEntity
     public $uri = "payment-history/v2/persons/{wallet}/payments/total";
 
     /**
-     * Prepare params for request
-     *
-     * @param array $options Request data params
-     * @param string $token Qiwi wallet token
-     *
-     * @return array
-     */
-    protected function prepareParams($options, $token)
-    {
-        $params["query"] = $options;
-        $params["headers"] = $this->prepareHeaders($token);
-
-        return $params;
-    }
-
-    /**
      * Prepare resource URI
      *
      * @param string $baseURI Base uri

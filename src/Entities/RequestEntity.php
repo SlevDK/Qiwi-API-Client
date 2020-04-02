@@ -151,7 +151,12 @@ abstract class RequestEntity
      *
      * @return array
      */
-    abstract protected function prepareParams($options, $token);
+    protected function prepareParams($options, $token) {
+        $params["query"] = $options;
+        $params["headers"] = $this->prepareHeaders($token);
+
+        return $params;
+    }
 
     /**
      * Prepare uri
