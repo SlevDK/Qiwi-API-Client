@@ -11,7 +11,11 @@
     - [x] **payments total**
     - [x] **transaction info**
     - [x] **payment cheque**
-  - [ ] **Balance**
+  - [ ] **Accounts (balances)**
+    - [x] **get accounts list**
+    - [ ] **create account**
+    - [ ] **get available accounts list**
+    - [ ] **set default account**
   - [ ] **Payments:**
     - [ ] **commissions info**
     - [ ] **payment form?**

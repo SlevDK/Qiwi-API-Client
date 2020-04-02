@@ -16,6 +16,7 @@ use SlevDK\QiwiApi\Entities\RequestEntity;
  * @method RequestEntity getPaymentsTotal(array $params)
  * @method RequestEntity getTransactionInfo(array $params)
  * @method RequestEntity getTransactionCheque(array $params)
+ * @method RequestEntity getAccountsList()
  */
 class Client
 {
@@ -45,12 +46,16 @@ class Client
      */
     private $baseURI = "https://edge.qiwi.com/";
 
+    /**
+     * @var array mapped methods 'apiCall' => 'relatedClass'
+     */
     private $methodMap = [
         "getProfile"            => "Profile",
         "getPaymentsList"       => "PaymentsList",
         "getPaymentsTotal"      => "PaymentsTotal",
         "getTransactionInfo"    => "TransactionInfo",
-        "getTransactionCheque"  => "TransactionCheque"
+        "getTransactionCheque"  => "TransactionCheque",
+        "getAccountsList"       => "AccountsList"
     ];
 
 
